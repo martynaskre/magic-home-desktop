@@ -1,5 +1,6 @@
 <template>
 	<div>
+		<button v-on:click="quitApp()">Quit</button>
 		<h1>Magic Control</h1>
 		<hr>
 		<h4>Devices</h4>
@@ -26,6 +27,9 @@
 			}
 		},
 		methods: {
+			quitApp() {
+				this.$electron.remote.getCurrentWindow().close()
+			},
 			discoverDevices() {
 				this.scanning = true
 
