@@ -3,15 +3,23 @@
 		<h1>Magic Control</h1>
 		<hr>
 		<h4>Devices</h4>
-		<button v-on:click="discoverDevices()">Device discovery</button>
+		<button v-on:click="discoverDevices()" :disabled="scanning">Device discovery</button>
+		<hr>
+		<div v-for="led in this.$store.state.Leds.leds">
+			<div>{{ led.model }}</div>
+			<button v-on:click="changePowerState(led.address)">Change power state</button>
+			<SketchPicker></SketchPicker>
+		</div>
 	</div>
 </template>
 
 <script>
-	import { Discovery } from 'magic-home'
-	import Store from 'electron-store'
+	import { SketchPicker } from 'vue-color'
 
 	export default {
+		components: {
+    		SketchPicker
+  		},
 		data() {
 			return {
 				scanning: false
@@ -19,23 +27,15 @@
 		},
 		methods: {
 			discoverDevices() {
-				const store = new Store({
-					name: 'leds_config',
-					schema: {
-						devices: {
-							type: 'array',
-
-						}
-					}
-				});
 				this.scanning = true
 
-				let discovery = new Discovery();
-				discovery.scan(1000).then(devices => {
-					store.set('devices', devices)
-
+				this.$store.dispatch('discoverLeds').then(response => {
+					console.log(this.$store.state.Leds.leds)
 					this.scanning = false
-				});
+        		})
+			},
+			changePowerState(address) {
+				this.$store.dispatch('changePowerState', address)
 			}
 		}
 	}

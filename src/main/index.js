@@ -27,7 +27,7 @@ function createWindow() {
         show: false
     })
 
-    if (platform == 'darwin') app.dock.hide()
+    if (platform == 'darwin' && process.env.NODE_ENV !== 'development') app.dock.hide()
 
     mainWindow.loadURL(winURL)
 
@@ -40,9 +40,13 @@ function createWindow() {
     const positioner = new Positioner(mainWindow)
 
     if (platform == 'win32') {
-        positioner.move('trayBottomCenter', tray.getBounds())
+        let position = positioner.calculate('trayBottomCenter', tray.getBounds())
+
+        mainWindow.setPosition(position.x, position.y - 10)
     } else if (platform == 'darwin') {
-        positioner.move('trayCenter', tray.getBounds())
+        let position = positioner.calculate('trayCenter', tray.getBounds())
+
+        mainWindow.setPosition(position.x, position.y + 10)
     }
 }
 
