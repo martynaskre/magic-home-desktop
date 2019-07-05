@@ -28,10 +28,17 @@ const actions = {
 		let light = new Control(address);
 
 		light.queryState().then(data => {
-			const stateToChange = (data.on) ? false : true
+			const stateToChange = !data.on
 
 			light.setPower(stateToChange)
 		})
+	},
+	changeColor({ commit }, data) {
+		let strip = new Control(data.address)
+
+		console.log(data)
+
+		strip.setColor(data.color[0], data.color[1], data.color[2])
 	}
 }
 
