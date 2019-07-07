@@ -21,24 +21,35 @@ const actions = {
 				resolve(devices)
 			}).catch(error => {
 				reject(error)
-			});
+			})
         })
 	},
 	changePowerState({ commit }, address) {
-		let light = new Control(address);
+		return new Promise((resolve, reject) => {
+			let strip = new Control(address);
 
-		light.queryState().then(data => {
-			const stateToChange = !data.on
+			strip.queryState().then(data => {
+				const stateToChange = !data.on
 
-			light.setPower(stateToChange)
+				strip.setPower(stateToChange)
+					 .then(data => resolve(data))
+					 .catch(error => reject(error))
+			}).catch(error => {
+				reject(error)
+			})
 		})
 	},
 	changeColor({ commit }, data) {
-		let strip = new Control(data.address)
+		return new Promise((resolve, reject) => {
+			let strip = new Control(data.address)
+			console.log('wtf')
 
-		console.log(data)
-
-		strip.setColor(data.color[0], data.color[1], data.color[2])
+			strip.setColor(data.color[0], data.color[1], data.color[2], (err, success) => {
+				console.log('sw')
+				if (err) reject(err)
+				if (success) resolve(success)
+			})
+		})
 	}
 }
 

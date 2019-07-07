@@ -8,7 +8,8 @@
 <script>
 	export default {
 		props: [
-			'address'
+			'address',
+			'ledKey'
 		],
 		data() {
 			return {
@@ -23,7 +24,7 @@
 						.substring(1).match(/.{2}/g)
 						.map(x => parseInt(x, 16))
 
-				this.$emit('input', { address: this.address, color: hexToRgb(this.color) })
+				this.$emit('input', { key: this.ledKey, address: this.address, color: hexToRgb(this.color) })
 			}
 		}
 	}
