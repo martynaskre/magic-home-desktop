@@ -1,4 +1,4 @@
-import { app, BrowserWindow, Tray } from 'electron'
+import { app, BrowserWindow, Tray, globalShortcut } from 'electron'
 import Positioner from 'electron-positioner'
 import os from 'os'
 
@@ -73,6 +73,10 @@ function toggleWindow() {
 app.on('ready', () => {
     createTray()
     createWindow()
+})
+
+app.on('will-quit', () => {
+    globalShortcut.unregisterAll()
 })
 
 app.on('window-all-closed', () => {

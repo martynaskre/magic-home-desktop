@@ -9,10 +9,22 @@ if (!process.env.IS_WEB) Vue.use(require('vue-electron'))
 Vue.http = Vue.prototype.$http = axios
 Vue.config.productionTip = false
 
-/* eslint-disable no-new */
 new Vue({
-  components: { App },
-  router,
-  store,
-  template: '<App/>'
+  	components: { App },
+  	router,
+  	store,
+  	template: '<App/>',
+  	created() {
+  		let leds = this.$store.state.Leds.leds
+
+  		for (var i = 0; i < leds.length; i++) {
+  			let led = leds[i]
+
+  			if (led.hotkey) {
+  				this.$electron.remote.globalShortcut.register(led.hotkey, () => {
+  					this.$store.dispatch('changePowerState', led.address)
+				})
+  			}
+  		}
+  	}
 }).$mount('#app')

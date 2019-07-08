@@ -1,6 +1,10 @@
 <template>
 	<div class="magic-picker">
 		<input type="color" v-model="color">
+		<div>
+		  	<input type="range" v-model="brightness" min="1" max="100">
+		  	<label>Brightness</label>
+		</div>
 		<button v-on:click="submit">Change color</button>
 	</div>
 </template>
@@ -13,7 +17,8 @@
 		],
 		data() {
 			return {
-				color: '#fff'
+				color: '#ffffff',
+				brightness: 100
 			}
 		},
 		methods: {
@@ -24,7 +29,12 @@
 						.substring(1).match(/.{2}/g)
 						.map(x => parseInt(x, 16))
 
-				this.$emit('input', { key: this.ledKey, address: this.address, color: hexToRgb(this.color) })
+				this.$emit('input', {
+					key: this.ledKey,
+					address: this.address,
+					color: hexToRgb(this.color),
+					brightness: this.brightness
+				})
 			}
 		}
 	}

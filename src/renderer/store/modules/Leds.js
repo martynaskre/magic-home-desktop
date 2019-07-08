@@ -1,3 +1,4 @@
+import Vue from 'vue'
 import { Discovery, Control } from 'magic-home'
 
 const state = {
@@ -7,6 +8,9 @@ const state = {
 const mutations = {
 	setLeds(state, leds) {
 		state.leds = leds
+	},
+	addHotkey(state, { key, hotkey }) {
+		state.leds[key].hotkey = hotkey
 	}
 }
 
@@ -42,13 +46,17 @@ const actions = {
 	changeColor({ commit }, data) {
 		return new Promise((resolve, reject) => {
 			let strip = new Control(data.address)
-			console.log('wtf')
 
-			strip.setColor(data.color[0], data.color[1], data.color[2], (err, success) => {
-				console.log('sw')
-				if (err) reject(err)
-				if (success) resolve(success)
+			strip.setColorWithBrightness(data.color[0], data.color[1], data.color[2], data.brightness).then(response => {
+				console.log(response)
 			})
+		})
+	},
+	addHotkey({ commit }, data) {
+		return new Promise((resolve, reject) => {
+			commit('addHotkey', data)
+
+			resolve()
 		})
 	}
 }

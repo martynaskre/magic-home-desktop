@@ -10,16 +10,21 @@
 			<div>{{ led.model }}</div>
 			<button v-on:click="changePowerState(key, led.address)">Change power state</button>
 			<color-picker v-bind:address="led.address" v-bind:ledKey="key" @input="changeColor" />
+			Current hotkey: <span v-html="$store.state.Leds.leds[key].hotkey"></span>
+			<hr>
+			<hotkey v-bind:ledKey="key" @input="addHotkey" />
 		</div>
 	</div>
 </template>
 
 <script>
 	import ColorPicker from '@/components/ColorPicker'
+	import Hotkey from '@/components/Hotkey'
 
 	export default {
 		components: {
-    		'color-picker': ColorPicker
+    		'color-picker': ColorPicker,
+    		'hotkey': Hotkey
   		},
 		data() {
 			return {
@@ -49,18 +54,20 @@
 					html.style['pointer-events'] = 'auto'
 				})
 			},
-			changeColor({ key, address, color }) {
-				let html = document.getElementById('device-' + key)
+			changeColor({ key, address, color, brightness }) {
+				this.$store.dispatch('changeColor', { address, color, brightness })
+			},
+			addHotkey({ key, hotkey }) {
+				const oldHotkey = this.$store.state.Leds.leds[key].hotkey
 
-				html.style.opacity = '.5'
-				html.style['pointer-events'] = 'none'
+				this.$store.dispatch('addHotkey', { key, hotkey }).then(() => {
+					const led = this.$store.state.Leds.leds[key]
 
-				this.$store.dispatch('changeColor', { address, color }).then(response => {
-					console.log('sw')
-					html.style.opacity = '1'
-					html.style['pointer-events'] = 'auto'
-				}).catch(e => {
-					console.log(e)
+					this.$electron.remote.globalShortcut.unregister(oldHotkey)
+
+					this.$electron.remote.globalShortcut.register(led.hotkey, () => {
+  						this.$store.dispatch('changePowerState', led.address)
+					})
 				})
 			}
 		}
