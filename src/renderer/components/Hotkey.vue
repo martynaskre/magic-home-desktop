@@ -1,7 +1,7 @@
 <template>
-	<div class="magic-hotkey">
-		<div v-if="key" v-html="key"></div>
-		<button v-on:click="recordKeys()" v-html="message"></button>
+	<div class="magic-hotkey mb-3 d-flex">
+		<button class="btn btn-sm btn-secondary" v-on:click="recordKeys()" v-html="message"></button>
+		<b class="hotkey" v-if="key" v-html="key"></b>
 	</div>
 </template>
 
@@ -37,6 +37,8 @@
 							hotkey: this.key
 						})
 					} else {
+						this.key = null
+
 						alert('This keybind is already registered!')
 					}
 				}
@@ -59,3 +61,11 @@
 		}
 	}
 </script>
+
+<style type="scss">
+	.hotkey {
+		position: relative;
+		top: 2px;
+		left: 10px;
+	}
+</style>

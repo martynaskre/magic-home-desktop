@@ -1,35 +1,33 @@
 <template>
 	<div>
-		<button v-on:click="quitApp()">Quit</button>
-		<h1>Magic Control</h1>
-		<hr>
-		<h4>Devices</h4>
-		<button v-on:click="discoverDevices()" :disabled="scanning">Device discovery</button>
-		<hr>
-		<div v-for="(led, key) in this.$store.state.Leds.leds" :id="'device-' + key">
-			<div>{{ led.model }}</div>
-			<button v-on:click="changePowerState(key, led.address)">Change power state</button>
-			<color-picker v-bind:address="led.address" v-bind:ledKey="key" @input="changeColor" />
-			Current hotkey: <span v-html="$store.state.Leds.leds[key].hotkey"></span>
-			<hr>
-			<hotkey v-bind:ledKey="key" @input="addHotkey" />
+		<div class="jumbotron rounded-0 d-flex pt-3 pb-2 mb-3">
+			<h4>Magic Control</h4>
+			<button class="close ml-auto mb-3" v-on:click="quitApp()" title="Quit app">
+          		&times;
+        	</button>
 		</div>
+		<div class="d-flex mx-2">
+			<h5>Devices</h5>
+			<button class="btn btn-sm btn-info ml-auto" v-on:click="discoverDevices()" :disabled="scanning">Device discovery</button>
+		</div>
+		<hr>
+		<device v-for="(led, key) in this.$store.state.Leds.leds" v-bind:led="led" v-bind:ledKey="key" :id="'device-' + key" />
+		<magic-footer />
 	</div>
 </template>
 
 <script>
-	import ColorPicker from '@/components/ColorPicker'
-	import Hotkey from '@/components/Hotkey'
+	import Device from '@/components/Device'
+	import Footer from '@/components/Footer'
 
 	export default {
 		components: {
-    		'color-picker': ColorPicker,
-    		'hotkey': Hotkey
+    		'device': Device,
+    		'magic-footer': Footer
   		},
 		data() {
 			return {
-				scanning: false,
-				colors: '#fff'
+				scanning: false
 			}
 		},
 		methods: {
@@ -42,33 +40,6 @@
 				this.$store.dispatch('discoverLeds').then(response => {
 					this.scanning = false
         		})
-			},
-			changePowerState(key, address) {
-				let html = document.getElementById('device-' + key)
-
-				html.style.opacity = '.5'
-				html.style['pointer-events'] = 'none'
-
-				this.$store.dispatch('changePowerState', address).then(response => {
-					html.style.opacity = '1'
-					html.style['pointer-events'] = 'auto'
-				})
-			},
-			changeColor({ key, address, color, brightness }) {
-				this.$store.dispatch('changeColor', { address, color, brightness })
-			},
-			addHotkey({ key, hotkey }) {
-				const oldHotkey = this.$store.state.Leds.leds[key].hotkey
-
-				this.$store.dispatch('addHotkey', { key, hotkey }).then(() => {
-					const led = this.$store.state.Leds.leds[key]
-
-					this.$electron.remote.globalShortcut.unregister(oldHotkey)
-
-					this.$electron.remote.globalShortcut.register(led.hotkey, () => {
-  						this.$store.dispatch('changePowerState', led.address)
-					})
-				})
 			}
 		}
 	}

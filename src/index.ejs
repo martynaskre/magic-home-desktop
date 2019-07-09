@@ -1,19 +1,18 @@
 <!DOCTYPE html>
 <html>
-  <head>
+<head>
     <meta charset="utf-8">
-    <title>magic</title>
-    <% if (htmlWebpackPlugin.options.nodeModules) { %>
-      <!-- Add `node_modules/` to global paths so `require` works properly in development -->
-      <script>
-        require('module').globalPaths.push('<%= htmlWebpackPlugin.options.nodeModules.replace(/\\/g, '\\\\') %>')
-      </script>
-    <% } %>
-  </head>
-  <body>
-    <div id="app"></div>
-    <!-- Set `__static` path to static files in production -->ß
+    <title>Magic Control</title>
 
-    <!-- webpack builds are automatically injected -->
-  </body>
+    <% if (htmlWebpackPlugin.options.nodeModules) { %>
+        <script>
+            require('module').globalPaths.push('<%= htmlWebpackPlugin.options.nodeModules.replace(/\\/g, '\\\\') %>')
+        </script>
+    <% } %>
+
+    <link rel="stylesheet"  href="./node_modules/bootstrap/dist/css/bootstrap.css" crossorigin="anonymous">
+</head>
+<body>
+    <div id="app"></div>
+</body>
 </html>

@@ -1,8 +1,8 @@
 {
-  "name": "magic",
-  "version": "0.0.1",
-  "author": "",
-  "description": "An electron-vue project",
+  "name": "Magic-Control",
+  "version": "0.1",
+  "author": "martynasS",
+  "description": "Desktop app to control Magic Home LEDs.",
   "license": null,
   "main": "./dist/electron/main.js",
   "scripts": {
@@ -17,7 +17,7 @@
     "postinstall": ""
   },
   "build": {
-    "productName": "magic",
+    "productName": "Magic Control",
     "appId": "com.martynasS.Magic",
     "directories": {
       "output": "build"
@@ -53,12 +53,10 @@
     }
   },
   "dependencies": {
-    "axios": "^0.18.0",
+    "bootstrap": "^4.1.1",
     "electron-positioner": "^4.1.0",
-    "electron-store": "^3.3.0",
     "magic-home": "^2.1.1",
     "vue": "^2.5.16",
-    "vue-color": "^2.7.0",
     "vue-electron": "^1.0.6",
     "vue-router": "^3.0.1",
     "vuex": "^3.0.1",

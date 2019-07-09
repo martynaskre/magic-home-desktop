@@ -1,6 +1,7 @@
 import { app, BrowserWindow, Tray, globalShortcut } from 'electron'
 import Positioner from 'electron-positioner'
 import os from 'os'
+import path from 'path'
 
 if (process.env.NODE_ENV !== 'development') {
     global.__static = require('path').join(__dirname, '/static').replace(/\\/g, '\\\\')
@@ -53,8 +54,8 @@ function createWindow() {
 }
 
 function createTray() {
-    tray = new Tray(require('path').join('build/icons/' + icons[platform]))
-    tray.setToolTip('This is my application.')
+    tray = new Tray(path.join(__static, icons[platform]))
+    tray.setToolTip('Magic Control')
 
     tray.on('click', () => { toggleWindow() })
     tray.on('double-click', () => { toggleWindow() })

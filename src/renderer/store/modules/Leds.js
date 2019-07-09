@@ -47,9 +47,11 @@ const actions = {
 		return new Promise((resolve, reject) => {
 			let strip = new Control(data.address)
 
-			strip.setColorWithBrightness(data.color[0], data.color[1], data.color[2], data.brightness).then(response => {
-				console.log(response)
-			})
+			strip.setColorWithBrightness(data.color[0], data.color[1], data.color[2], data.brightness)
+
+			setTimeout(() => {
+				resolve()
+			}, 1500);
 		})
 	},
 	addHotkey({ commit }, data) {

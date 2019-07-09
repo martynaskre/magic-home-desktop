@@ -1,15 +1,15 @@
 <template>
-  <div id="app">
-    <router-view></router-view>
-  </div>
+  	<div id="app">
+    	<router-view></router-view>
+  	</div>
 </template>
 
 <script>
-  export default {
-    name: 'magic'
-  }
+  	export default {
+    	name: 'Magic-Control'
+  	}
 </script>
 
-<style>
-  /* CSS */
+<style type="scss">
+	@import '../../static/icons/material-icons.css';
 </style>

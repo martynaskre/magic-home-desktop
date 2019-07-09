@@ -1,11 +1,15 @@
 <template>
-	<div class="magic-picker">
-		<input type="color" v-model="color">
+	<div class="magic-picker mb-3">
 		<div>
-		  	<input type="range" v-model="brightness" min="1" max="100">
-		  	<label>Brightness</label>
+			<b>Color:</b>
+			<input type="color" v-model="color">
+			<input type="text" v-model="color">
 		</div>
-		<button v-on:click="submit">Change color</button>
+		<div>
+			<b>Brightness:</b>
+			<input type="range" v-model="brightness" min="1" max="100">
+		</div>
+		<button class="btn btn-sm btn-success" v-on:click="submit">Change color</button>
 	</div>
 </template>
 
@@ -42,6 +46,6 @@
 
 <style type="scss">
 	.magic-picker {
-		background-color: #000;
+
 	}
 </style>
