@@ -15,7 +15,7 @@
 		</div>
 		<color-picker v-if="colorChanger" v-bind:address="led.address" v-bind:ledKey="ledKey" @input="changeColor" />
 		<hotkey v-if="keybindChanger" v-bind:ledKey="ledKey" @input="addHotkey" />
-		<hr class="mt-0">
+		<hr>
 	</div>
 </template>
 
@@ -93,5 +93,6 @@
 	.keybind {
 		position: relative;
 		top: -9px;
+		margin-bottom: -9px;
 	}
 </style>
