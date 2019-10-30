@@ -2,7 +2,7 @@
 	<div>
 		<div class="d-flex mx-2">
 			<h5>Devices</h5>
-			<button class="btn btn-sm btn-info ml-auto" v-on:click="discoverDevices()" :disabled="scanning">Device discovery</button>
+			<button class="btn btn-sm btn-info ml-auto" v-on:click="discoverDevices()" :disabled="scanning">Discover devices</button>
 		</div>
 		<hr>
 		<div class="devices">
