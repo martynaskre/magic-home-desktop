@@ -12,7 +12,7 @@
 		</div>
 		<div class="d-flex">
 			<div class="preview" v-bind:style="{ 'background-color': color, 'opacity': brightness / 100 }">Preview</div>
-			<button class="btn btn-sm btn-secondary" v-on:click="submit">Change color</button>
+			<button class="btn btn-sm btn-secondary w-50" v-on:click="submit">Change color</button>
 		</div>
 	</div>
 </template>
@@ -63,7 +63,7 @@
 
 <style type="scss">
 	.preview {
-		width: calc(100% - 111px);
+		width: 50%;
 		margin-right: 10px;
 		height: 31px;
 		border-radius: 3px;

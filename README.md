@@ -1,5 +1,10 @@
 # Magic Control
 Desktop app for Windows and MacOS to control Magic Home LEDs.
 
-![Magic Controll app view(MacOS)](https://i.imgur.com/6C66lEw.png)
-![Magic Controll app view(Windows)](https://i.imgur.com/K1C4SGM.png)
+![Magic Controll app view](https://i.imgur.com/yMoVZ37.png)
+
+## Contributing
+Pull requests are welcome. For major changes, please open an issue first to discuss what you would like to change.
+
+## License
+[MIT](https://choosealicense.com/licenses/mit/)
