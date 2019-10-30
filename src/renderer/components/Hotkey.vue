@@ -1,5 +1,5 @@
 <template>
-	<div class="magic-hotkey mb-3 d-flex">
+	<div class="magic-hotkey pt-3 mt-2 d-flex">
 		<button class="btn btn-sm btn-secondary" v-on:click="recordKeys()" v-html="message"></button>
 		<b class="hotkey" v-if="key" v-html="key"></b>
 	</div>
@@ -63,6 +63,10 @@
 </script>
 
 <style type="scss">
+	.magic-hotkey {
+		border-top: 1px solid #ddd;
+	}
+
 	.hotkey {
 		position: relative;
 		top: 2px;

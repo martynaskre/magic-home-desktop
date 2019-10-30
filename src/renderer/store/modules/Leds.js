@@ -51,7 +51,7 @@ const actions = {
 
 			setTimeout(() => {
 				resolve()
-			}, 1500);
+			}, 3000);
 		})
 	},
 	addHotkey({ commit }, data) {

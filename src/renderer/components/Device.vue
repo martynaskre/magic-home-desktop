@@ -1,5 +1,5 @@
 <template>
-	<div class="px-2">
+	<div class="device px-2">
 		<div class="d-flex">
 			<div v-bind:class="{ title: $store.state.Leds.leds[ledKey].hotkey }">
 				<b>{{ led.model }}</b>
@@ -9,18 +9,16 @@
 			</div>
 			<div class="ml-auto">
 				<button class="btn btn-sm btn-dark" v-on:click="changePowerState(ledKey, led.address)" title="Toggle power state"><i class="material-icons">power_settings_new</i></button>
-				<button class="btn btn-sm btn-dark" v-on:click="colorChanger = !colorChanger" title="Change color & brightness"><i class="material-icons">color_lens</i></button>
+				<button class="btn btn-sm btn-dark" v-on:click="$router.push({ name: 'picker', params: { ledKey: ledKey } })" title="Change color & brightness"><i class="material-icons">color_lens</i></button>
 				<button class="btn btn-sm btn-dark" v-on:click="keybindChanger = !keybindChanger" title="Add keybind to toggle power state"><i class="material-icons">keyboard</i></button>
 			</div>
 		</div>
-		<color-picker v-if="colorChanger" v-bind:address="led.address" v-bind:ledKey="ledKey" @input="changeColor" />
 		<hotkey v-if="keybindChanger" v-bind:ledKey="ledKey" @input="addHotkey" />
 		<hr>
 	</div>
 </template>
 
 <script>
-	import ColorPicker from '@/components/ColorPicker'
 	import Hotkey from '@/components/Hotkey'
 
 	export default {
@@ -29,8 +27,7 @@
 			'ledKey'
 		],
 		components: {
-    		'color-picker': ColorPicker,
-    		'hotkey': Hotkey,
+    		'hotkey': Hotkey
   		},
   		data() {
   			return {

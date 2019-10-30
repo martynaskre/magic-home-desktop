@@ -57,6 +57,7 @@
     "electron-positioner": "^4.1.0",
     "magic-home": "^2.1.1",
     "vue": "^2.5.16",
+    "vue-color-picker-board": "^1.1.1",
     "vue-electron": "^1.0.6",
     "vue-router": "^3.0.1",
     "vuex": "^3.0.1",

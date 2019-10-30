@@ -7,8 +7,13 @@ export default new Router({
     routes: [
         {
             path: '/',
-            name: 'landing-page',
-            component: require('@/components/Home').default
+            name: 'home',
+            component: require('@/pages/Home').default
+        },
+        {
+            path: '/picker/:ledKey',
+            name: 'picker',
+            component: require('@/pages/Picker').default
         },
         {
             path: '*',
