@@ -1,0 +1,15 @@
+import Model from 'main/models/Model';
+
+export interface IModelData {
+}
+
+export default class __class_name__ extends Model {
+  public readonly storagePrefix: string = '__storage_prefix__';
+
+  private static fillable: IModelData = {
+  };
+
+  public static init<T extends typeof __class_name__>(this: T) {
+    return new this(this.fillable) as InstanceType<T> & typeof this.fillable;
+  }
+}

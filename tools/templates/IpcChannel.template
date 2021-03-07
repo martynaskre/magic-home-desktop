@@ -1,0 +1,20 @@
+import IpcChannelInterface from 'main/ipc/IpcChannelInterface';
+
+import { IpcMainEvent } from 'electron';
+import IpcRequest from 'shared/types/IpcRequest';
+
+export default class __class_name__ implements IpcChannelInterface {
+  public getName() {
+    return '__channel_name__';
+  }
+
+  public async handle(event: IpcMainEvent, request: IpcRequest) {
+    if (!request.responseChannel) {
+      request.responseChannel = `${this.getName()}_response`;
+    }
+
+    //todo
+
+    event.sender.send(request.responseChannel, true);
+  }
+}

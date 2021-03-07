@@ -1,0 +1,31 @@
+import ControllerInteface from 'main/services/controllers/ControllerInterface';
+
+import { Device, DeviceData } from 'shared/types/Device';
+import { Color } from 'shared/types/Color';
+
+export default class __class_name__ implements ControllerInteface {
+  public async discover(): Promise<Array<Device>> {
+    return [];
+  }
+
+  public async queryData(address: string): Promise<DeviceData> {
+    return {
+      on: false,
+      brightness: 100,
+      color: {
+        r: 0,
+        g: 0,
+        b: 0,
+        hex: '#000000',
+      },
+    };
+  }
+
+  public async toggleState(address: string): Promise<boolean> {
+    return false;
+  }
+
+  public async changeDeviceColor(address: string, color: Color, brightness: number): Promise<boolean> {
+    return false;
+  }
+}
