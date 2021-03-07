@@ -17,11 +17,15 @@ export default class DiscoverDevicesChannel implements IpcChannelInterface {
     }
 
     const model = DeviceModel.init();
-    const devices = model.list;
+
+    let devices = model.list;
+
+    if (!devices) {
+      devices = [];
+    }
 
     const { controllers } = config;
 
-    /* eslint-disable */
     await Promise.all(controllers.map((controller) =>
       controller.discover().then((controllerDevices) =>
         Promise.all(controllerDevices.map((device) =>
@@ -29,7 +33,6 @@ export default class DiscoverDevicesChannel implements IpcChannelInterface {
         ))
       )
     ));
-    /* eslint-enable */
 
     model.list = devices;
 

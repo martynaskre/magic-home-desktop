@@ -21,18 +21,18 @@ export default class GetDevicesChannel implements IpcChannelInterface {
 
     const { controllers } = config;
 
-    /* eslint-disable */
-    await Promise.all(devices.map((device, index) =>
-      Promise.all(controllers.map((controller) =>
-          (controller.type === device.type) ? controller.queryData(device.address).then((data) => {
-            devices[index].data = data;
-          }) : Promise.resolve()
-        ),
-      )
-    ));
-    /* eslint-enable */
+    if (devices && devices.length > 0) {
+      await Promise.all(devices.map((device, index) =>
+        Promise.all(controllers.map((controller) =>
+            (controller.type === device.type) ? controller.queryData(device.address).then((data) => {
+              devices[index].data = data;
+            }) : Promise.resolve()
+          ),
+        )
+      ));
 
-    model.list = devices;
+      model.list = devices;
+    }
 
     event.sender.send(request.responseChannel, devices);
   }

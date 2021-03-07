@@ -2,8 +2,6 @@ import {
   app, protocol, BrowserWindow, Tray, globalShortcut, Menu, ipcMain,
 } from 'electron';
 
-import 'reflect-metadata';
-
 import { createProtocol } from 'vue-cli-plugin-electron-builder/lib';
 import installExtension, { VUEJS_DEVTOOLS } from 'electron-devtools-installer';
 import Positioner from 'electron-positioner';
@@ -101,7 +99,9 @@ class Background {
     if (process.env.WEBPACK_DEV_SERVER_URL) {
       await this.window.loadURL(process.env.WEBPACK_DEV_SERVER_URL);
 
-      if (!this.isTest) this.window.webContents.openDevTools();
+      if (!this.isTest) this.window.webContents.openDevTools({
+        mode: 'detach',
+      });
     } else {
       createProtocol('app');
 
