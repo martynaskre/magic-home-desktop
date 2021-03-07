@@ -13,6 +13,10 @@ import DiscoverDevicesChannel from 'main/ipc/DiscoverDevicesChannel';
 import GetDevicesChannel from 'main/ipc/GetDevicesChannel';
 import ToggleDeviceStateChannel from 'main/ipc/ToggleDeviceStateChannel';
 import ChangeDeviceNameChannel from 'main/ipc/ChangeDeviceNameChannel';
+import ChangeDeviceColorChannel from 'main/ipc/ChangeDeviceColorChannel';
+import GetPresetsChannel from 'main/ipc/GetPresetsChannel';
+import AddPresetChannel from 'main/ipc/AddPresetChannel';
+import RemovePresetChannel from 'main/ipc/RemovePresetChannel';
 
 declare const __static: string; // eslint-disable-line no-underscore-dangle
 
@@ -196,4 +200,8 @@ new Background().init([
   new GetDevicesChannel(),
   new ToggleDeviceStateChannel(),
   new ChangeDeviceNameChannel(),
+  new ChangeDeviceColorChannel(),
+  new GetPresetsChannel(),
+  new AddPresetChannel(),
+  new RemovePresetChannel(),
 ]);

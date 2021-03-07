@@ -14,7 +14,7 @@
         <Paragraph type="smaller">Presets:</Paragraph>
         <Block :inline="true">
           <Button
-            v-for="(preset, index) in $store.state.presets.list"
+            v-for="(preset, index) in presets"
             v-bind:key="index"
             :boxy="true"
             :color="preset.color.hex"
@@ -24,7 +24,7 @@
             <Icon v-if="deleting" icon="close" />
           </Button>
           <Button
-            v-if="$store.state.presets.list.length < $config.maxPresets && !deleting"
+            v-if="presets.length < $config.maxPresets && !deleting"
             :boxy="true"
             color="transparent"
             v-on:click="addPreset"
@@ -49,7 +49,9 @@
 import { Vue, Component, Watch } from 'vue-property-decorator';
 
 import { DevicesModule } from 'renderer/store/modules/Devices';
+import { PresetsModule } from 'renderer/store/modules/Presets';
 
+import { Device } from 'shared/types/Device';
 import { Color } from 'shared/types/Color';
 import { Preset } from 'shared/types/Preset';
 
@@ -79,22 +81,34 @@ import InputRange from 'renderer/components/InputRange.vue';
   },
 })
 export default class ColorChanger extends Vue {
-  color!: Color;
-
-  brightness!: number;
-
+  color: Color | null = null;
+  brightness: number | null = null;
   deleting = false;
-
   shouldShake = false;
+  device: Device | null = null;
 
-  get device() {
-    const { id } = this.$route.params;
-
-    return DevicesModule.findDeviceById(id);
+  get presets() {
+    return PresetsModule.list;
   }
 
   get shakeClass() {
     return (this.shouldShake) ? 'shake' : '';
+  }
+
+  created() {
+    PresetsModule.getPresets();
+
+    const { address } = this.$route.params;
+
+    const deviceIndex = DevicesModule.list.findIndex(device => device.address == address)
+
+    if (deviceIndex === -1) {
+      this.$router.push({ name: 'devices' });
+
+      return;
+    }
+
+    this.device = DevicesModule.list[deviceIndex];
   }
 
   @Watch('color')
@@ -116,14 +130,31 @@ export default class ColorChanger extends Vue {
   }
 
   async changeColor(color: Color, brightness: number) {
-    console.log({
-      color,
-      brightness,
-    });
+    if (this.device) {
+      await DevicesModule.changeDeviceColor({
+        address: this.device.address,
+        color,
+        brightness,
+      });
+    }
   }
 
-  addPreset() {
-    console.log('add preset');
+  async addPreset() {
+    if (this.device) {
+      const brightness = (this.brightness) ? this.brightness : this.device.data.brightness
+      const color = Object.assign({}, (this.color) ? this.color : this.device.data.color)
+
+      this.shouldShake = !await PresetsModule.addPreset({
+        color,
+        brightness,
+      })
+
+      if (this.shouldShake) {
+        setTimeout(() => {
+          this.shouldShake = false
+        }, 820)
+      }
+    }
   }
 
   async presetAction(preset: Preset, index: number) {
@@ -141,7 +172,7 @@ export default class ColorChanger extends Vue {
   }
 
   async removePreset(index: number) {
-    await this.$store.dispatch('removePreset', index);
+    await PresetsModule.removePreset(index);
   }
 
   toggleDelete() {

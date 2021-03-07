@@ -21,13 +21,13 @@ import {
 export default class InputRange extends Vue {
   @Prop({ type: Number, default: 1 }) readonly min!: number;
 
-  @Prop({ type: Number, default: 1 }) readonly max!: number;
+  @Prop({ type: Number, default: 100 }) readonly max!: number;
 
   @Prop({ type: Number, default: 1 }) readonly step!: number;
 
   @Prop({ type: Number, default: 1 }) readonly defaultValue!: number;
 
-  element!: HTMLInputElement | null;
+  element: HTMLInputElement | null = null;
 
   isChanging = false;
 
@@ -72,7 +72,7 @@ export default class InputRange extends Vue {
   }
 
   emitValue() {
-    this.$emit('input', this.value);
+    this.$emit('input', Number(this.value));
   }
 }
 </script>

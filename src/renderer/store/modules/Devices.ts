@@ -10,6 +10,8 @@ import store from 'renderer/store';
 
 import { Device } from 'shared/types/Device';
 
+import { rgbToHex } from 'shared/utils';
+
 export interface DevicesState {
   list: Array<Device>;
 }
@@ -41,9 +43,23 @@ class Devices extends VuexModule implements DevicesState {
     });
   }
 
+  @Mutation
+  SET_DEVICE_COLOR({ address, color, brightness }: any) {
+    this.list.forEach((device, index) => {
+      if (device.address === address) {
+        this.list[index].data.brightness = brightness
+
+        this.list[index].data.color.r = color.r
+        this.list[index].data.color.g = color.g
+        this.list[index].data.color.b = color.b
+        this.list[index].data.color.hex = rgbToHex(color.r, color.g, color.b)
+      }
+    })
+  }
+
   @Action
-  findDeviceById(id: string) {
-    return this.list.find((device) => device.id === id);
+  findDeviceByAddress(address: string) {
+    return this.list.find((device) => device.address === address);
   }
 
   @Action
@@ -86,6 +102,17 @@ class Devices extends VuexModule implements DevicesState {
       address,
       name,
     };
+  }
+
+  @Action({ commit: 'SET_DEVICE_COLOR' })
+  async changeDeviceColor({ address, color, brightness }: any) {
+    await window.api.ipcRequest('change-device-color', { address, color, brightness });
+
+    return {
+      address,
+      color,
+      brightness,
+    }
   }
 }
 

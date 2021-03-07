@@ -42,14 +42,14 @@
               type="secondary"
               :boxy="true"
               :spacerRight="true"
-              v-on:click="$router.push({ name: 'color-changer', params: { id: device.id } })"
+              v-on:click="$router.push({ name: 'color-changer', params: { address: device.address } })"
             >
               <Icon icon="palette" />
             </Button>
             <Button
               type="secondary"
               :boxy="true"
-              v-on:click="$router.push({ name: 'keybind-picker', params: { id: device.id } })"
+              v-on:click="$router.push({ name: 'keybind-picker', params: { address: device.address } })"
             >
               <Icon icon="keyboard" />
             </Button>

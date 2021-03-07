@@ -9,7 +9,7 @@ import {
   Device as MagicDevice,
 } from 'magic-home';
 
-import { rgbToHex } from 'main/utils';
+import { rgbToHex } from 'shared/utils';
 
 export default class MagicHomeController implements ControllerInteface {
   public type: string = 'magic-home';

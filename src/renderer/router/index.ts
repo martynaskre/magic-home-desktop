@@ -15,7 +15,7 @@ const routes: Array<RouteConfig> = [
     component: () => import('renderer/views/Settings.vue'),
   },
   {
-    path: '/color-changer/:id',
+    path: '/color-changer/:address',
     name: 'color-changer',
     component: () => import('renderer/views/ColorChanger.vue'),
   },
