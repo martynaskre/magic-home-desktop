@@ -36,7 +36,7 @@ export default class InputSelect extends Vue {
 
   listHidden = true;
 
-  selectedItem!: number;
+  selectedItem: number | null = null;
 
   toggleListState() {
     this.listHidden = !this.listHidden;

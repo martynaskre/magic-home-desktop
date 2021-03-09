@@ -49,7 +49,7 @@
             <Button
               type="secondary"
               :boxy="true"
-              v-on:click="$router.push({ name: 'keybind-picker', params: { address: device.address } })"
+              v-on:click="$router.push({ name: 'keybind-changer', params: { address: device.address } })"
             >
               <Icon icon="keyboard" />
             </Button>

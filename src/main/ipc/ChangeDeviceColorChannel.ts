@@ -17,8 +17,6 @@ export default class ChangeDeviceColorChannel implements IpcChannelInterface {
       request.responseChannel = `${this.getName()}_response`;
     }
 
-    console.log('sw');
-
     const address = request.params.address as string;
     const color = request.params.color as Color;
     const brightness = request.params.brightness as number;

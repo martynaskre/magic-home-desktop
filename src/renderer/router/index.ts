@@ -20,6 +20,11 @@ const routes: Array<RouteConfig> = [
     component: () => import('renderer/views/ColorChanger.vue'),
   },
   {
+    path: '/keybind-changer/:address',
+    name: 'keybind-changer',
+    component: () => import('renderer/views/KeybindChanger.vue'),
+  },
+  {
     path: '*',
     redirect: '/',
   },

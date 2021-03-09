@@ -17,6 +17,8 @@ import ChangeDeviceColorChannel from 'main/ipc/ChangeDeviceColorChannel';
 import GetPresetsChannel from 'main/ipc/GetPresetsChannel';
 import AddPresetChannel from 'main/ipc/AddPresetChannel';
 import RemovePresetChannel from 'main/ipc/RemovePresetChannel';
+import GetKeybindsChannel from 'main/ipc/GetKeybindsChannel';
+import SelectKeybindChannel from 'main/ipc/SelectKeybindChannel';
 
 declare const __static: string; // eslint-disable-line no-underscore-dangle
 
@@ -204,4 +206,6 @@ new Background().init([
   new GetPresetsChannel(),
   new AddPresetChannel(),
   new RemovePresetChannel(),
+  new GetKeybindsChannel(),
+  new SelectKeybindChannel(),
 ]);
