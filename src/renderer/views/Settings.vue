@@ -8,7 +8,7 @@
           <Block width="80%">
             <Paragraph type="heading">Enable light theme</Paragraph>
             <Paragraph type="small">
-              Decrease your productivity by 100%.
+              This action instantly descreases your productivity by a great margin.
             </Paragraph>
           </Block>
 

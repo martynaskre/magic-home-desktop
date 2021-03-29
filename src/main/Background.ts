@@ -8,8 +8,11 @@ import Positioner from 'electron-positioner';
 import path from 'path';
 
 import config from 'main/config';
+import { registerKeybind } from 'main/utils';
 
 import IpcChannelInterface from 'main/ipc/IpcChannelInterface';
+
+import KeybindModel from 'main/models/KeybindModel';
 
 declare const __static: string; // eslint-disable-line no-underscore-dangle
 
@@ -66,6 +69,7 @@ class Background {
     }
 
     this.createWindow();
+    this.registerKeybinds();
   }
 
   private onWillQuit() {
@@ -184,6 +188,14 @@ class Background {
   private registerIpcChannels() {
     this.ipcChannels.forEach((channel) => {
       ipcMain.on(channel.getName(), (event, request) => channel.handle(event, request));
+    });
+  }
+
+  private registerKeybinds() {
+    const keybinds = KeybindModel.list;
+
+    keybinds.forEach((keybind) => {
+      registerKeybind(keybind);
     });
   }
 }

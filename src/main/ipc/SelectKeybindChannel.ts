@@ -7,6 +7,8 @@ import { Keybind } from 'shared/types/Keybind';
 
 import KeybindModel from 'main/models/KeybindModel';
 
+import { registerKeybind, unregisterKeybind } from 'main/utils';
+
 export default class SelectKeybindChannel implements IpcChannelInterface {
   public getName() {
     return 'select-keybind';
@@ -27,13 +29,17 @@ export default class SelectKeybindChannel implements IpcChannelInterface {
       if (this.validateKeybind(keybinds, { name, keys})) {
         keybinds = this.removeExistingKeybind(keybinds, address);
 
-        keybinds.push({
+        const keybind: Keybind = {
           name,
           keys,
           devices: [
             address,
           ],
-        });
+        };
+
+        registerKeybind(keybind);
+
+        keybinds.push(keybind);
       }
     } else {
       keybinds = this.removeExistingKeybind(keybinds, address);
@@ -69,6 +75,8 @@ export default class SelectKeybindChannel implements IpcChannelInterface {
       if (keybind.devices.includes(address)) {
         if (keybind.devices.length === 1) {
           keybinds = keybinds.filter((value, index) => index !== i);
+
+          unregisterKeybind(keybind);
         } else {
           keybinds[i].devices = keybinds[i].devices.filter((value) => address !== value);
         }

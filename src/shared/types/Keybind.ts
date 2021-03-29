@@ -1,5 +1,5 @@
 export interface Keybind {
   name: string;
-  keys: Array<String>;
-  devices: Array<String>;
+  keys: string[];
+  devices: string[];
 }
