@@ -19,8 +19,7 @@ export default class ChangeDeviceNameChannel implements IpcChannelInterface {
 
     let state = false;
 
-    const model = DeviceModel.init();
-    const devices = model.list;
+    let devices = DeviceModel.list;
 
     const deviceIndex = devices.findIndex((searchDevice) => searchDevice.address === address);
 
@@ -30,7 +29,7 @@ export default class ChangeDeviceNameChannel implements IpcChannelInterface {
       state = true;
     }
 
-    model.list = devices;
+    DeviceModel.list = devices;
 
     event.sender.send(request.responseChannel, state);
   }

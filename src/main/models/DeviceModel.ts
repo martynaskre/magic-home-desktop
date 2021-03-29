@@ -1,19 +1,16 @@
-import Model from 'main/models/Model';
+import Model, { initModel, IBaseModelData } from 'main/models/Model';
 
 import { Device } from 'shared/types/Device';
 
-export interface IModelData {
+interface IModelData extends IBaseModelData {
   list: Device[];
 }
 
-export default class DeviceModel extends Model {
+class DeviceModel extends Model {
   public readonly storagePrefix: string = 'devices';
-
-  private static fillable: IModelData = {
+  public readonly fillable: IModelData = {
     list: [],
   };
-
-  public static init<T extends typeof DeviceModel>(this: T) {
-    return new this(this.fillable) as InstanceType<T> & typeof this.fillable;
-  }
 }
+
+export default initModel(DeviceModel, new DeviceModel().fillable);

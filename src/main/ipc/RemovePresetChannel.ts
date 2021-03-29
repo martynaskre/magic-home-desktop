@@ -17,12 +17,11 @@ export default class RemovePresetChannel implements IpcChannelInterface {
 
     const presetIndex = request.params.index as number;
 
-    const model = PresetModel.init();
-    let presets = model.list;
+    let presets = PresetModel.list;
 
     presets = presets.filter((value, index) => presetIndex !== index)
 
-    model.list = presets;
+    PresetModel.list = presets;
 
     event.sender.send(request.responseChannel, true);
   }

@@ -16,13 +16,7 @@ export default class DiscoverDevicesChannel implements IpcChannelInterface {
       request.responseChannel = `${this.getName()}_response`;
     }
 
-    const model = DeviceModel.init();
-
-    let devices = model.list;
-
-    if (!devices) {
-      devices = [];
-    }
+    const devices = DeviceModel.list;
 
     const { controllers } = config;
 
@@ -33,8 +27,6 @@ export default class DiscoverDevicesChannel implements IpcChannelInterface {
         ))
       )
     ));
-
-    model.list = devices;
 
     event.sender.send(request.responseChannel, true);
   }

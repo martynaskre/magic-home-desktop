@@ -15,11 +15,7 @@ export default class GetKeybindsChannel implements IpcChannelInterface {
       request.responseChannel = `${this.getName()}_response`;
     }
 
-    let keybinds = KeybindModel.init().list;
-
-    if (!keybinds) {
-      keybinds = [];
-    }
+    const keybinds = KeybindModel.list;
 
     event.sender.send(request.responseChannel, keybinds);
   }

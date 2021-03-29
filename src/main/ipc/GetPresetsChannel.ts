@@ -15,11 +15,7 @@ export default class GetPresetsChannel implements IpcChannelInterface {
       request.responseChannel = `${this.getName()}_response`;
     }
 
-    let presets = PresetModel.init().list;
-
-    if (!presets) {
-      presets = [];
-    }
+    const presets = PresetModel.list;
 
     event.sender.send(request.responseChannel, presets);
   }

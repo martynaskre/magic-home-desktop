@@ -23,12 +23,7 @@ export default class AddPresetChannel implements IpcChannelInterface {
     const color = request.params.color as Color;
     const brightness = request.params.brightness as number;
 
-    const model = PresetModel.init();
-    let presets = model.list;
-
-    if (!presets) {
-      presets = [];
-    }
+    const presets = PresetModel.list;
 
     const presetExists = presets.findIndex((preset) => {
       return (preset.color.r == color.r && preset.color.g == color.g && preset.color.b == color.b && preset.brightness == brightness)
@@ -41,9 +36,9 @@ export default class AddPresetChannel implements IpcChannelInterface {
       };
 
       presets.push(preset);
-
-      model.list = presets;
     }
+
+    PresetModel.list = presets;
 
     event.sender.send(request.responseChannel, preset);
   }

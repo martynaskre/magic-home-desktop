@@ -7,18 +7,9 @@ import installExtension, { VUEJS_DEVTOOLS } from 'electron-devtools-installer';
 import Positioner from 'electron-positioner';
 import path from 'path';
 
-import IpcChannelInterface from 'main/ipc/IpcChannelInterface';
+import config from 'main/config';
 
-import DiscoverDevicesChannel from 'main/ipc/DiscoverDevicesChannel';
-import GetDevicesChannel from 'main/ipc/GetDevicesChannel';
-import ToggleDeviceStateChannel from 'main/ipc/ToggleDeviceStateChannel';
-import ChangeDeviceNameChannel from 'main/ipc/ChangeDeviceNameChannel';
-import ChangeDeviceColorChannel from 'main/ipc/ChangeDeviceColorChannel';
-import GetPresetsChannel from 'main/ipc/GetPresetsChannel';
-import AddPresetChannel from 'main/ipc/AddPresetChannel';
-import RemovePresetChannel from 'main/ipc/RemovePresetChannel';
-import GetKeybindsChannel from 'main/ipc/GetKeybindsChannel';
-import SelectKeybindChannel from 'main/ipc/SelectKeybindChannel';
+import IpcChannelInterface from 'main/ipc/IpcChannelInterface';
 
 declare const __static: string; // eslint-disable-line no-underscore-dangle
 
@@ -197,15 +188,4 @@ class Background {
   }
 }
 
-new Background().init([
-  new DiscoverDevicesChannel(),
-  new GetDevicesChannel(),
-  new ToggleDeviceStateChannel(),
-  new ChangeDeviceNameChannel(),
-  new ChangeDeviceColorChannel(),
-  new GetPresetsChannel(),
-  new AddPresetChannel(),
-  new RemovePresetChannel(),
-  new GetKeybindsChannel(),
-  new SelectKeybindChannel(),
-]);
+new Background().init(config.ipcChannels);

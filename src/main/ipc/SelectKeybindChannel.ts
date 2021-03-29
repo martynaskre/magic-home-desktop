@@ -17,12 +17,7 @@ export default class SelectKeybindChannel implements IpcChannelInterface {
       request.responseChannel = `${this.getName()}_response`;
     }
 
-    const model = KeybindModel.init();
-    let keybinds = model.list;
-
-    if (!keybinds) {
-      keybinds = [];
-    }
+    let keybinds = KeybindModel.list;
 
     const name = request.params.name as string;
     const keys = request.params.keys as string[];
@@ -52,7 +47,7 @@ export default class SelectKeybindChannel implements IpcChannelInterface {
       }
     }
 
-    model.list = keybinds;
+    KeybindModel.list = keybinds;
 
     event.sender.send(request.responseChannel, keybinds);
   }
@@ -72,7 +67,6 @@ export default class SelectKeybindChannel implements IpcChannelInterface {
       const keybind = keybinds[i];
 
       if (keybind.devices.includes(address)) {
-        console.log('sw');
         if (keybind.devices.length === 1) {
           keybinds = keybinds.filter((value, index) => index !== i);
         } else {

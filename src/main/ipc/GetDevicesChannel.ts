@@ -16,7 +16,7 @@ export default class GetDevicesChannel implements IpcChannelInterface {
       request.responseChannel = `${this.getName()}_response`;
     }
 
-    const model = DeviceModel.init();
+    const model = DeviceModel;
     const devices = model.list;
 
     const { controllers } = config;

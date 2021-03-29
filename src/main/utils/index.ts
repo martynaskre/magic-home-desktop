@@ -8,7 +8,7 @@ export function findController(type: string) {
 }
 
 export function getControllerByDevice(address: string) {
-  const devices = DeviceModel.init().list;
+  const devices = DeviceModel.list;
 
   const device = devices.find((searchDevice) => searchDevice.address === address);
 
