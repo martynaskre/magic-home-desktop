@@ -11,14 +11,24 @@
 
 <script lang="ts">
 import { Vue, Component, Watch } from 'vue-property-decorator';
-
 import { Route } from 'vue-router';
+import { AppModule } from 'renderer/store/modules/App';
+import { changeTheme } from 'renderer/utils';
 
 @Component
 export default class App extends Vue {
   transition = '';
-
   containerClass = (window.api.platform === 'win32') ? 'window-windows' : 'window-mac';
+
+  get darkMode() {
+    return AppModule.darkMode;
+  }
+
+  async created() {
+    await AppModule.getSettings();
+
+    changeTheme(!this.darkMode);
+  }
 
   @Watch('$route')
   onRouteChanged(to: Route) {

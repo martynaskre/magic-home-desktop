@@ -7,22 +7,25 @@
         <ListItem>
           <Block width="80%">
             <Paragraph type="heading">Enable light theme</Paragraph>
-          </Block>
-
-          <template v-slot:right>
-            <InputToggle @input="changeValue" />
-          </template>
-        </ListItem>
-        <ListItem>
-          <Block width="80%">
-            <Paragraph type="heading">Color preset syncing</Paragraph>
             <Paragraph type="small">
-              Save yourself a few clicks and let the app change color across all devices.
+              Decrease your productivity by 100%.
             </Paragraph>
           </Block>
 
           <template v-slot:right>
-            <InputToggle />
+            <InputToggle :defaultValue="!darkMode" @input="(value) => changeSetting('darkMode', value)" />
+          </template>
+        </ListItem>
+        <ListItem>
+          <Block width="80%">
+            <Paragraph type="heading">Open on startup</Paragraph>
+            <Paragraph type="small">
+              Save yourself a few clicks and let the Magic happen.
+            </Paragraph>
+          </Block>
+
+          <template v-slot:right>
+            <InputToggle :defaultValue="openOnStartup" @input="(value) => changeSetting('openOnStartup', value)" />
           </template>
         </ListItem>
       </List>
@@ -32,6 +35,10 @@
 
 <script lang="ts">
 import { Vue, Component } from 'vue-property-decorator';
+
+import { AppModule } from 'renderer/store/modules/App';
+
+import { changeTheme } from 'renderer/utils';
 
 import Container from 'renderer/components/Container.vue';
 import Header from 'renderer/components/Header.vue';
@@ -57,13 +64,26 @@ import InputToggle from 'renderer/components/InputToggle.vue';
   },
 })
 export default class Settings extends Vue {
-  changeValue(value: boolean) {
-    if (value) {
-      document.body.classList.remove('dark-theme');
-      document.body.classList.add('light-theme');
-    } else {
-      document.body.classList.remove('light-theme');
-      document.body.classList.add('dark-theme');
+  get darkMode() {
+    return AppModule.darkMode;
+  }
+
+  get openOnStartup() {
+    return AppModule.openOnStartup;
+  }
+
+  mounted() {
+    AppModule.getSettings();
+  }
+
+  changeSetting(name: string, value: boolean) {
+    AppModule.changeSetting({
+      name,
+      value
+    });
+
+    if (name == 'darkMode') {
+      changeTheme(value);
     }
   }
 }

@@ -8,22 +8,47 @@ import {
 
 import store from 'renderer/store';
 
+import { Settings } from 'shared/types/Settings';
+
 export interface AppState {
   controllerBusy: boolean;
+  darkMode: boolean;
+  openOnStartup: boolean;
 }
 
 @Module({ dynamic: true, store, name: 'app' })
 class App extends VuexModule implements AppState {
   controllerBusy = false;
+  darkMode = false;
+  openOnStartup = false;
 
   @Mutation
   SET_CONTROLLER_BUSY_STATE(state: boolean) {
     this.controllerBusy = state;
   }
 
+  @Mutation
+  SET_SETTINGS(settings: Settings) {
+    this.darkMode = settings.darkMode;
+    this.openOnStartup = settings.openOnStartup;
+  }
+
   @Action({ commit: 'SET_CONTROLLER_STATE' })
   setControllerBusyState(state: boolean) {
     return state;
+  }
+
+  @Action({ commit: 'SET_SETTINGS' })
+  async getSettings() {
+    return await window.api.ipcRequest('get-settings');
+  }
+
+  @Action
+  changeSetting({ name, value }: any) {
+    window.api.ipcRequest('set-setting', {
+      name,
+      value,
+    });
   }
 }
 
