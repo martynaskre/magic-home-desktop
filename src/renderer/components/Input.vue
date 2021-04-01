@@ -24,17 +24,11 @@ import {
 @Component
 export default class Input extends Vue {
   @Prop({ type: String, default: 'text' }) readonly type!: string;
-
   @Prop(String) readonly placeholder!: string;
-
   @Prop(String) readonly defaultValue!: string;
-
   @Prop({ type: Boolean, default: false }) readonly invisible!: boolean;
-
   @Prop({ type: Boolean, default: false }) readonly checkSpelling!: boolean;
-
   @Prop({ type: Boolean, default: false }) readonly large!: boolean;
-
   @Prop({ type: Boolean, default: false }) readonly fullWidth!: boolean;
 
   inputContent: string = this.defaultValue;

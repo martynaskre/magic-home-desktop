@@ -17,7 +17,6 @@ import iro from '@jaames/iro';
 @Component
 export default class ColorPicker extends Vue {
   @Prop({ type: Number, default: 187 }) readonly width!: number;
-
   @Prop({ type: String, default: '#fff' }) readonly initialColor!: string;
 
   colorWheel!: iro.ColorPicker;

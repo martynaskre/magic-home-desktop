@@ -12,11 +12,8 @@ import {
 @Component
 export default class Content extends Vue {
   @Prop({ type: String, default: '' }) readonly icon!: string;
-
   @Prop({ type: String, default: '' }) readonly color!: string;
-
   @Prop({ type: String, default: '' }) readonly classes!: string;
-
   @Prop({ type: Boolean, default: false }) readonly hoverAnimation!: boolean;
 
   get iconClasses() {

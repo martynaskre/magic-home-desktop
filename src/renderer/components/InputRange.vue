@@ -20,11 +20,8 @@ import {
 @Component
 export default class InputRange extends Vue {
   @Prop({ type: Number, default: 1 }) readonly min!: number;
-
   @Prop({ type: Number, default: 100 }) readonly max!: number;
-
   @Prop({ type: Number, default: 1 }) readonly step!: number;
-
   @Prop({ type: Number, default: 1 }) readonly defaultValue!: number;
 
   element: HTMLInputElement | null = null;

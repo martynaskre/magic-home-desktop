@@ -22,21 +22,13 @@ import {
 @Component
 export default class Block extends Vue {
   @Prop({ type: String, default: '' }) readonly width!: string;
-
   @Prop({ type: String, default: '' }) readonly height!: string;
-
   @Prop({ type: Boolean, default: false }) readonly inline!: boolean;
-
   @Prop({ type: Boolean, default: false }) readonly verticalCenter!: boolean;
-
   @Prop({ type: Boolean, default: false }) readonly horizontalCenter!: boolean;
-
   @Prop({ type: Boolean, default: false }) readonly fadeIn!: boolean;
-
   @Prop({ type: Boolean, default: false }) readonly spacerTop!: boolean;
-
   @Prop({ type: Boolean, default: false }) readonly spacerBottom!: boolean;
-
   @Prop({ type: Number, default: 1 }) readonly type!: number;
 
   get classes() {

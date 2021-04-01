@@ -21,19 +21,12 @@ import {
 @Component
 export default class Button extends Vue {
   @Prop({ type: Boolean, default: false }) readonly disabled!: boolean;
-
   @Prop({ type: String, default: '' }) readonly type!: string;
-
   @Prop({ type: Boolean, default: false }) readonly spacerLeft!: boolean;
-
   @Prop({ type: Boolean, default: false }) readonly spacerRight!: boolean;
-
   @Prop({ type: Boolean, default: false }) readonly boxy!: boolean;
-
   @Prop({ type: String, default: '' }) readonly color!: string;
-
   @Prop({ type: Boolean, default: false }) readonly fullWidth!: boolean;
-
   @Prop({ type: Boolean, default: false }) readonly decorative!: boolean;
 
   get classes() {
