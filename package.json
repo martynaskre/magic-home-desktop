@@ -1,5 +1,9 @@
 {
   "private": true,
+  "name": "magic-control",
+  "version": "1.0.0",
+  "author": "Martynas Skrebė",
+  "description": "Desktop app to control Magic Home LEDs.",
   "scripts": {
     "serve": "vue-cli-service serve",
     "build": "vue-cli-service build",
@@ -16,6 +20,7 @@
     "@mdi/font": "^5.9.55",
     "electron-positioner": "^4.1.0",
     "electron-store": "^7.0.2",
+    "electron-unhandled": "^3.0.2",
     "magic-home": "^2.6.1",
     "vue": "^2.6.11",
     "vue-class-component": "^7.2.3",

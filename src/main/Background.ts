@@ -16,6 +16,10 @@ import KeybindModel from 'main/models/KeybindModel';
 
 declare const __static: string; // eslint-disable-line no-underscore-dangle
 
+const unhandled = require('electron-unhandled');
+
+unhandled();
+
 class Background {
   private isDevelopment: boolean = process.env.NODE_ENV !== 'production';
   private isTest: boolean = process.env.IS_TEST === 'true';
@@ -141,7 +145,7 @@ class Background {
   }
 
   private createTray() {
-    this.tray = new Tray('src/renderer/assets/icons/icon.ico');
+    this.tray = new Tray(path.join(__static, 'icons/icon.ico'));
 
     this.tray.setContextMenu(
       Menu.buildFromTemplate([

@@ -27,15 +27,11 @@ module.exports = {
         'tray-window-state-manager'
       ],
       builderOptions: {
-        extraResources: [
-          {
-            from: 'src/assets',
-            to: 'resources',
-            filter: [
-              '**/*'
-            ]
-          }
-        ]
+        appId: 'com.martynasS.magic-control',
+        productName: 'Magic Control',
+        win: {
+          icon: "src/renderer/assets/icons/icon.ico"
+        },
       }
     }
   }
