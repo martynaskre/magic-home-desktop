@@ -51,5 +51,7 @@ export function registerKeybind(keybind: Keybind) {
 export function unregisterKeybind(keybind: Keybind) {
   const keys = keybind.keys.join('+');
 
-  globalShortcut.unregister(keys);
+  if (globalShortcut.isRegistered(keys)) {
+    globalShortcut.unregister(keys);
+  }
 }

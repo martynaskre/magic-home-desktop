@@ -5,6 +5,23 @@ const config = require('../package.json');
 
 generateTemplateFiles([
   {
+    option: 'App translation',
+    entry: {
+      folderPath: './src/renderer/i18n/translations/en.ts',
+    },
+    stringReplacers: [
+      {
+        question: `Locale`,
+        slot: '__locale__'
+      },
+    ],
+    output: {
+      path: './src/renderer/i18n/translations/__locale__.ts',
+      pathAndFileNameDefaultCase: '(kebabCase)',
+      overwrite: false,
+    },
+  },
+  {
     option: 'Main Process Ipc Channel',
     entry: {
       folderPath: './tools/templates/IpcChannel.template',

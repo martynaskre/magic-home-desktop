@@ -31,12 +31,17 @@ export interface Option {
 @Component
 export default class InputSelect extends Vue {
   @Prop({ type: String, default: 'Select' }) readonly placeholder!: string;
-
   @Prop({ type: Array, default: [] }) readonly options!: Array<Option>;
+  @Prop({ type: String, default: null }) readonly selectedOption!: string|null;
 
   listHidden = true;
+  selectedItem: number|null = null;
 
-  selectedItem: number | null = null;
+  created() {
+    if (this.selectedOption) {
+      this.selectedItem = this.options.findIndex((value) => value.key === this.selectedOption);
+    }
+  }
 
   toggleListState() {
     this.listHidden = !this.listHidden;
@@ -55,8 +60,11 @@ export default class InputSelect extends Vue {
   $cellHeight: 28px;
 
   .input-select {
+    position: relative;
+
     .input-select-options {
-      position: relative;
+      position: absolute;
+      top: 100%;
       bottom: 0;
       width: 100%;
       animation: fadeInTop .3s ease-in both;
@@ -78,6 +86,8 @@ export default class InputSelect extends Vue {
       cursor: pointer;
 
       &.input-select-placeholder {
+        padding-right: 40px;
+
         &:after {
           content: '\F0140';
           font-family: 'Material Design Icons';

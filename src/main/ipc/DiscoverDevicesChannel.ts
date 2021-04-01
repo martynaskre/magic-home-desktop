@@ -28,6 +28,8 @@ export default class DiscoverDevicesChannel implements IpcChannelInterface {
       )
     ));
 
+    DeviceModel.list = devices;
+
     event.sender.send(request.responseChannel, true);
   }
 }

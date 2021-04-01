@@ -1,5 +1,7 @@
 export interface Settings {
-  [key: string]: boolean;
+  [key: string]: any;
+
   darkMode: boolean;
   openOnStartup: boolean;
+  language: string;
 }

@@ -18,6 +18,7 @@ export default class GetSettingsChannel implements IpcChannelInterface {
     const settings = {
       darkMode: AppModel.darkMode,
       openOnStartup: AppModel.openOnStartup,
+      language: AppModel.language,
     };
 
     event.sender.send(request.responseChannel, settings);

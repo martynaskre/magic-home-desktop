@@ -1,10 +1,8 @@
 <template>
   <Container>
     <Header />
-    <PageTitle title="Devices">
-      <Button v-on:click="discoverDevices" :disabled="controllerBusy">
-        Discover devices
-      </Button>
+    <PageTitle :title="$t('devices.title')">
+      <Button v-on:click="discoverDevices" :disabled="controllerBusy" v-html="$t('devices.discoverButton')" />
     </PageTitle>
     <Content :scrollable="true">
       <Block
@@ -16,7 +14,7 @@
         height="100%"
       >
         <Icon icon="lightbulb" classes="color-pulse" />
-        <Paragraph>Doing some Magic...</Paragraph>
+        <Paragraph v-html="$t('devices.discoveringSlogan')" />
       </Block>
       <List v-else>
         <ListItem
@@ -49,9 +47,17 @@
             <Button
               type="secondary"
               :boxy="true"
+              :spacerRight="true"
               v-on:click="$router.push({ name: 'keybind-changer', params: { address: device.address } })"
             >
               <Icon icon="keyboard" />
+            </Button>
+            <Button
+              type="secondary"
+              :boxy="true"
+              v-on:click="() => removeDevice(device.address)"
+            >
+              <Icon icon="delete" />
             </Button>
           </template>
         </ListItem>
@@ -132,6 +138,10 @@ export default class Devices extends Vue {
 
   async toggleDeviceState(address: string) {
     await DevicesModule.toggleDeviceState(address);
+  }
+
+  removeDevice(address: string) {
+    DevicesModule.removeDevice(address);
   }
 }
 </script>

@@ -57,6 +57,11 @@ class Devices extends VuexModule implements DevicesState {
     })
   }
 
+  @Mutation
+  REMOVE_DEVICE(address: string) {
+    this.list = this.list.filter((device) => device.address !== address);
+  }
+
   @Action
   findDeviceByAddress(address: string) {
     return this.list.find((device) => device.address === address);
@@ -112,6 +117,15 @@ class Devices extends VuexModule implements DevicesState {
       address,
       color,
       brightness,
+    }
+  }
+
+  @Action
+  async removeDevice(address: string) {
+    const success = await window.api.ipcRequest('remove-device', { address });
+
+    if (success) {
+      this.context.commit('REMOVE_DEVICE', address);
     }
   }
 }

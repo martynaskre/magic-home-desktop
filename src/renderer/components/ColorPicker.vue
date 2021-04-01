@@ -39,9 +39,6 @@ export default class ColorPicker extends Vue {
         {
           component: iro.ui.Wheel,
         },
-        {
-          component: iro.ui.Slider,
-        }
       ],
       width: this.width,
       color: this.initialColor,

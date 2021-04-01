@@ -7,6 +7,7 @@ import { Keybind } from 'shared/types/Keybind';
 
 import KeybindModel from 'main/models/KeybindModel';
 
+import { globalShortcut } from 'electron';
 import { registerKeybind, unregisterKeybind } from 'main/utils';
 
 export default class SelectKeybindChannel implements IpcChannelInterface {
@@ -26,7 +27,7 @@ export default class SelectKeybindChannel implements IpcChannelInterface {
     const address = request.params.address as string;
 
     if (keys) {
-      if (this.validateKeybind(keybinds, { name, keys})) {
+      if (this.validateKeybind(keybinds, { name, keys}) && !globalShortcut.isRegistered(keys.join('+'))) {
         keybinds = this.removeExistingKeybind(keybinds, address);
 
         const keybind: Keybind = {
@@ -75,6 +76,8 @@ export default class SelectKeybindChannel implements IpcChannelInterface {
       if (keybind.devices.includes(address)) {
         if (keybind.devices.length === 1) {
           keybinds = keybinds.filter((value, index) => index !== i);
+
+          i--;
 
           unregisterKeybind(keybind);
         } else {

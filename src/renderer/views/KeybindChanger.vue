@@ -1,7 +1,7 @@
 <template>
   <Container>
     <Header />
-    <PageTitle :title="`Changing color for ${device.name}`" />
+    <PageTitle :title="$t('keybindChanger.title', { device: device.name })" />
     <Content>
       <Block :inline="true">
         <Button :fullWidth="true" :spacerRight="true" :disabled="isSelecting" v-on:click="toggleRecordingState">
@@ -13,7 +13,7 @@
       </Block>
       <Block height="310px">
         <Block v-show="isRecording" :spacerTop="true" :fadeIn="true">
-          <Input placeholder="Give it a name!" :fullWidth="true" :defaultValue="keybindName" v-model="keybindName" />
+          <Input :placeholder="$t('keybindChanger.record.inputPlaceholder')" :fullWidth="true" :defaultValue="keybindName" v-model="keybindName" />
           <Block :spacerTop="true" :inline="true">
             <Block :inline="true" width="auto" v-for="(key, index) in keybind" v-bind:key="index">
               <Button type="secondary" :decorative="true">
@@ -30,7 +30,7 @@
         </Block>
       </Block>
       <Block v-if="currentKeybind">
-        <Paragraph type="smaller">Current keybind:</Paragraph>
+        <Paragraph type="smaller" v-html="$t('keybindChanger.current')" />
         <Block :inline="true">
           <Block :inline="true" width="auto" v-for="(key, index) in currentKeybind.keys" v-bind:key="index">
               <Button type="secondary" :decorative="true">
@@ -90,25 +90,25 @@ export default class KeybindChanger extends Vue {
   get recordText() {
     if (this.isRecording) {
       if (this.keybind.length > 0 && this.keybindName) {
-        return 'Save keybind';
+        return this.$t('keybindChanger.record.save');
       } else if (this.keybind.length > 0) {
-        return 'Stop recording';
+        return this.$t('keybindChanger.record.stop');
       }
 
-      return 'Stop it!';
+      return this.$t('keybindChanger.record.cancel');
     }
 
-    return 'Record keybind';
+    return this.$t('keybindChanger.record.default');
   }
 
   get selectText() {
     if (this.selectedKeybind !== null && this.isSelecting) {
-      return 'Save keybind';
+      return this.$t('keybindChanger.select.save');
     } else if (this.isSelecting) {
-      return 'Create keybind';
+      return this.$t('keybindChanger.select.create');
     }
 
-    return 'Use existing keybind';
+    return this.$t('keybindChanger.select.default');
   }
 
   get keybindList() {

@@ -1,15 +1,13 @@
 <template>
   <Container>
     <Header />
-    <PageTitle title="Settings" />
+    <PageTitle :title="$t('settings.title')" />
     <Content :scrollable="true">
       <List>
         <ListItem>
           <Block width="80%">
-            <Paragraph type="heading">Enable light theme</Paragraph>
-            <Paragraph type="small">
-              This action instantly descreases your productivity by a great margin.
-            </Paragraph>
+            <Paragraph type="heading" v-html="$t('settings.theme.heading')" />
+            <Paragraph type="small" v-html="$t('settings.theme.description')" />
           </Block>
 
           <template v-slot:right>
@@ -18,14 +16,21 @@
         </ListItem>
         <ListItem>
           <Block width="80%">
-            <Paragraph type="heading">Open on startup</Paragraph>
-            <Paragraph type="small">
-              Save yourself a few clicks and let the Magic happen.
-            </Paragraph>
+            <Paragraph type="heading" v-html="$t('settings.startup.heading')" />
+            <Paragraph type="small" v-html="$t('settings.startup.description')" />
           </Block>
 
           <template v-slot:right>
             <InputToggle :defaultValue="openOnStartup" @input="(value) => changeSetting('openOnStartup', value)" />
+          </template>
+        </ListItem>
+        <ListItem>
+          <Block width="60%">
+            <Paragraph type="heading" v-html="'Display language'" />
+          </Block>
+
+          <template v-slot:right>
+            <InputSelect :options="languages" :selectedOption="$i18n.locale" @input="(value) => changeLanguage(value)" />
           </template>
         </ListItem>
       </List>
@@ -49,6 +54,7 @@ import ListItem from 'renderer/components/ListItem.vue';
 import Block from 'renderer/components/Block.vue';
 import Paragraph from 'renderer/components/Paragraph.vue';
 import InputToggle from 'renderer/components/InputToggle.vue';
+import InputSelect from 'renderer/components/InputSelect.vue';
 
 @Component({
   components: {
@@ -61,6 +67,7 @@ import InputToggle from 'renderer/components/InputToggle.vue';
     Block,
     Paragraph,
     InputToggle,
+    InputSelect,
   },
 })
 export default class Settings extends Vue {
@@ -70,6 +77,15 @@ export default class Settings extends Vue {
 
   get openOnStartup() {
     return AppModule.openOnStartup;
+  }
+
+  get languages() {
+    return this.$i18n.availableLocales.map((language) => {
+      return {
+        key: language,
+        value: this.$i18n.messages[language].languageName,
+      };
+    });
   }
 
   mounted() {
@@ -85,6 +101,15 @@ export default class Settings extends Vue {
     if (name == 'darkMode') {
       changeTheme(value);
     }
+  }
+
+  changeLanguage(locale: string) {
+    this.$i18n.locale = locale;
+
+    AppModule.changeSetting({
+      name: 'language',
+      value: locale
+    });
   }
 }
 </script>

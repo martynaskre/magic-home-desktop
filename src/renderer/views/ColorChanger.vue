@@ -1,17 +1,17 @@
 <template>
   <Container>
     <Header />
-    <PageTitle :title="`Changing color for ${device.name}`" />
+    <PageTitle :title="$t('colorChanger.title', { device: device.name })" />
     <Content>
       <Block :inline="true" :horizontalCenter="true" :fadeIn="true">
         <ColorPicker :initialColor="device.data.color.hex" v-model="color" />
       </Block>
       <Block :verticalCenter="true" height="151px">
-        <Paragraph type="smaller">Brightness:</Paragraph>
+        <Paragraph type="smaller" v-html="$t('colorChanger.brightness')" />
         <InputRange :defaultValue="device.data.brightness" v-model="brightness" />
       </Block>
       <Block>
-        <Paragraph type="smaller">Presets:</Paragraph>
+        <Paragraph type="smaller" v-html="$t('colorChanger.presets')" />
         <Block :inline="true">
           <Button
             v-for="(preset, index) in presets"

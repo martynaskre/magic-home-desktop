@@ -4,6 +4,7 @@ import App from 'renderer/App.vue';
 
 import router from 'renderer/router';
 import store from 'renderer/store';
+import i18n from 'renderer/i18n';
 
 import config from 'renderer/config';
 
@@ -22,5 +23,6 @@ Vue.prototype.$config = config;
 new Vue({
   router,
   store,
+  i18n,
   render: (h) => h(App),
 }).$mount('#app');

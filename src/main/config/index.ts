@@ -14,11 +14,13 @@ import GetKeybindsChannel from 'main/ipc/GetKeybindsChannel';
 import SelectKeybindChannel from 'main/ipc/SelectKeybindChannel';
 import GetSettingsChannel from 'main/ipc/GetSettingsChannel';
 import SetSettingChannel from 'main/ipc/SetSettingChannel';
+import RemoveDeviceChannel from 'main/ipc/RemoveDeviceChannel';
 
 import MagicHomeController from 'main/services/controllers/MagicHomeController';
 
 import DarkModeSetting from 'main/utils/settings/DarkModeSetting';
 import OpenOnStartupSetting from 'main/utils/settings/OpenOnStartupSetting';
+import LanguageSetting from 'main/utils/settings/LanguageSetting';
 
 interface IConfig {
   ipcChannels: IpcChannelInterface[];
@@ -42,6 +44,7 @@ const config: IConfig = {
     new SelectKeybindChannel(),
     new GetSettingsChannel(),
     new SetSettingChannel(),
+    new RemoveDeviceChannel(),
   ],
   controllers: [
     new MagicHomeController(),
@@ -49,6 +52,7 @@ const config: IConfig = {
   settings: {
     'darkMode': new DarkModeSetting(),
     'openOnStartup': new OpenOnStartupSetting(),
+    'language': new LanguageSetting(),
   }
 };
 

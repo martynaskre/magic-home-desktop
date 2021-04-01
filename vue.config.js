@@ -13,24 +13,26 @@ module.exports = {
     electronBuilder: {
       removeElectronJunk: false,
       chainWebpackMainProcess: (config) => {
-        config.resolve
-              .alias
-              .set('main', path.resolve(__dirname, './src/main'))
-              .set('shared', path.resolve(__dirname, './src/shared'))
-      },
+              config.resolve
+                    .alias
+                    .set('main', path.resolve(__dirname, './src/main'))
+                    .set('shared', path.resolve(__dirname, './src/shared'))
+            },
       mainProcessFile: 'src/main/Background.ts',
       mainProcessWatch: [
         'src/main/**/*'
       ],
       rendererProcessFile: 'src/renderer/main.ts',
-      externals: ['tray-window-state-manager'],
+      externals: [
+        'tray-window-state-manager'
+      ],
       builderOptions: {
         extraResources: [
           {
-            "from": "src/assets",
-            "to": "resources",
-            "filter": [
-              "**/*"
+            from: 'src/assets',
+            to: 'resources',
+            filter: [
+              '**/*'
             ]
           }
         ]

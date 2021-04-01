@@ -3,9 +3,10 @@
   "scripts": {
     "serve": "vue-cli-service serve",
     "build": "vue-cli-service build",
-    "generate": "node tools/generate.js",
     "electron:build": "vue-cli-service electron:build",
     "electron:serve": "vue-cli-service electron:serve",
+    "generate": "node tools/generate.js",
+    "i18n:report": "vue-cli-service i18n:report --src \"./src/**/*.?(js|vue)\" --locales \"./src/locales/**/*.json\"",
     "postinstall": "electron-builder install-app-deps",
     "postuninstall": "electron-builder install-app-deps"
   },
@@ -16,9 +17,9 @@
     "electron-positioner": "^4.1.0",
     "electron-store": "^7.0.2",
     "magic-home": "^2.6.1",
-    "tray-window-state-manager": "^1.0.1",
     "vue": "^2.6.11",
     "vue-class-component": "^7.2.3",
+    "vue-i18n": "^8.24.2",
     "vue-property-decorator": "^9.1.2",
     "vue-router": "^3.2.0",
     "vuex": "^3.4.0",
@@ -38,5 +39,8 @@
     "typescript": "~3.9.3",
     "vue-cli-plugin-electron-builder": "~2.0.0-rc.6",
     "vue-template-compiler": "^2.6.11"
+  },
+  "optionalDependencies": {
+    "tray-window-state-manager": "^1.0.1"
   }
 }

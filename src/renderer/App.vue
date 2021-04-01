@@ -24,10 +24,16 @@ export default class App extends Vue {
     return AppModule.darkMode;
   }
 
+  get language() {
+    return AppModule.language;
+  }
+
   async created() {
     await AppModule.getSettings();
 
     changeTheme(!this.darkMode);
+
+    this.$i18n.locale = this.language;
   }
 
   @Watch('$route')

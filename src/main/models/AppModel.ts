@@ -3,6 +3,7 @@ import Model, { initModel, IBaseModelData } from 'main/models/Model';
 interface IModelData extends IBaseModelData {
   darkMode: boolean;
   openOnStartup: boolean;
+  language: string;
 }
 
 class AppModel extends Model {
@@ -10,6 +11,7 @@ class AppModel extends Model {
   public readonly fillable: IModelData = {
     darkMode: true,
     openOnStartup: true,
+    language: 'en',
   };
 }
 
