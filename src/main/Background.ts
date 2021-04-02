@@ -23,14 +23,14 @@ unhandled();
 class Background {
   private isDevelopment: boolean = process.env.NODE_ENV !== 'production';
   private isTest: boolean = process.env.IS_TEST === 'true';
-  private platform: string = process.platform;
+  private isWindows: boolean = process.platform === 'win32';
   private window?: BrowserWindow;
   private tray?: Tray;
   private ipcChannels: IpcChannelInterface[] = [];
   private windowsTrayManager!: any;
 
   public constructor() {
-    if (this.platform === 'win32') {
+    if (this.isWindows) {
       this.windowsTrayManager = require('tray-window-state-manager'); // eslint-disable-line global-require
     }
   }
@@ -48,12 +48,18 @@ class Background {
       },
     ]);
 
+    if (!this.isDevelopment && !this.isWindows) {
+      app.dock.hide();
+    }
+
     app.on('ready', () => {
       this.onReady();
     });
+
     app.on('will-quit', () => {
       this.onWillQuit();
     });
+
     app.on('window-all-closed', () => {
       this.onWindowAllClosed();
     });
@@ -91,8 +97,8 @@ class Background {
       frame: false,
       resizable: false,
       transparent: true,
-      skipTaskbar: false,
-      show: true,
+      skipTaskbar: !this.isDevelopment,
+      show: this.isDevelopment,
       webPreferences: {
         nodeIntegration: false,
         contextIsolation: true,
@@ -113,15 +119,17 @@ class Background {
       this.window.loadURL('app://./index.html');
     }
 
-    if (!this.isDevelopment && this.tray) {
+    if (this.tray) {
       const positioner = new Positioner(this.window);
 
-      if (this.platform === 'win32') {
+      if (this.isWindows) {
         const position = positioner.calculate('trayBottomCenter', this.tray.getBounds());
 
         this.window.setPosition(position.x, position.y - 10);
-      } else if (this.platform === 'darwin') {
+      } else {
         const position = positioner.calculate('trayCenter', this.tray.getBounds());
+
+        console.log(this.tray.getBounds());
 
         this.window.setPosition(position.x, position.y + 10);
       }
@@ -129,11 +137,12 @@ class Background {
 
     /*
      * Workaround for window flickering on Windows 10
-     * TODO test on mac
      */
-    this.window.on('hide', () => {
-      if (!this.isDevelopment && this.window) this.window.setOpacity(0);
-    });
+    if (this.isWindows) {
+      this.window.on('hide', () => {
+        if (!this.isDevelopment && this.window) this.window.setOpacity(0);
+      });
+    }
 
     this.window.on('closed', () => {
       this.window = undefined;
@@ -145,10 +154,19 @@ class Background {
   }
 
   private createTray() {
-    this.tray = new Tray(path.join(__static, 'icons/icon.ico'));
+    this.tray = new Tray(path.join(__static, `icons/icon.${(this.isWindows) ? 'ico' : 'png'}`));
 
     this.tray.setContextMenu(
       Menu.buildFromTemplate([
+        (!this.isWindows ? {
+          label: 'Bring to foreground',
+          click: () => {
+            this.toggleWindow();
+          }
+        } : {}),
+        (!this.isWindows ? {
+          type: 'separator'
+        } : {}),
         {
           label: 'Quit',
           type: 'normal',
@@ -158,12 +176,14 @@ class Background {
     );
     this.tray.setToolTip('Magic Control');
 
-    this.tray.on('click', () => {
-      this.toggleWindow();
-    });
-    this.tray.on('double-click', () => {
-      this.toggleWindow();
-    });
+    if (this.isWindows) {
+      this.tray.on('click', () => {
+        this.toggleWindow();
+      });
+      this.tray.on('double-click', () => {
+        this.toggleWindow();
+      });
+    }
   }
 
   private toggleWindow() {
@@ -171,7 +191,7 @@ class Background {
       if (this.window.isVisible()) {
         this.window.hide();
       } else {
-        if (this.platform === 'win32') {
+        if (this.isWindows) {
           this.windowsTrayManager.hidePopup();
         }
 
@@ -180,11 +200,12 @@ class Background {
 
         /*
          * Workaround for window flickering on Windows 10
-         * TODO test on mac
          */
-        setTimeout(() => {
-          if (this.window) this.window.setOpacity(1);
-        }, 100);
+        if (this.isWindows) {
+          setTimeout(() => {
+            if (this.window) this.window.setOpacity(1);
+          }, 100);
+        }
       }
     }
   }
