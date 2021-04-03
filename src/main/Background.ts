@@ -1,5 +1,5 @@
 import {
-  app, protocol, BrowserWindow, Tray, globalShortcut, Menu, ipcMain,
+  app, protocol, BrowserWindow, Tray, globalShortcut, Menu, ipcMain, nativeImage,
 } from 'electron';
 
 import { createProtocol } from 'vue-cli-plugin-electron-builder/lib';
@@ -154,7 +154,9 @@ class Background {
   }
 
   private createTray() {
-    this.tray = new Tray(path.join(__static, `icons/icon.${(this.isWindows) ? 'ico' : 'png'}`));
+    const trayImage = nativeImage.createFromPath(path.join(__static, 'icons/icon.png')).resize({ width: 24, height: 24 });
+
+    this.tray = new Tray(trayImage);
 
     this.tray.setContextMenu(
       Menu.buildFromTemplate([
