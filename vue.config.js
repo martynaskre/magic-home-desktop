@@ -1,4 +1,6 @@
-const path = require('path')
+const path = require('path');
+
+const installerName = '${productName} Setup.${ext}';
 
 module.exports = {
   configureWebpack: {
@@ -30,7 +32,22 @@ module.exports = {
         appId: 'com.martynasS.magic-control',
         productName: 'Magic Control',
         win: {
-          icon: "src/renderer/assets/icons/icon.ico"
+          icon: 'public/icons/icon.ico'
+        },
+        nsis: {
+          oneClick: false,
+          perMachine: true,
+          allowToChangeInstallationDirectory: true,
+          installerIcon: 'public/icons/installerIcon.ico',
+          artifactName: installerName,
+        },
+        mac: {
+          icon: 'public/icons/icon.icns',
+          category: 'public.app-category.utilities',
+        },
+        dmg: {
+          icon: 'public/icons/installerIcon.ico',
+          artifactName: installerName,
         },
       }
     }
