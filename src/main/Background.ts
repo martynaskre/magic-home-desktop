@@ -1,5 +1,5 @@
 import {
-  app, protocol, BrowserWindow, Tray, globalShortcut, Menu, ipcMain, nativeImage,
+  app, protocol, BrowserWindow, Tray, globalShortcut, Menu, ipcMain, nativeImage, MenuItemConstructorOptions, MenuItem
 } from 'electron';
 
 import { createProtocol } from 'vue-cli-plugin-electron-builder/lib';
@@ -8,7 +8,7 @@ import Positioner from 'electron-positioner';
 import path from 'path';
 
 import config from 'main/config';
-import { registerKeybind } from 'main/utils';
+import { fadeWindowOut, registerKeybind } from 'main/utils';
 
 import IpcChannelInterface from 'main/ipc/IpcChannelInterface';
 
@@ -119,22 +119,6 @@ class Background {
       this.window.loadURL('app://./index.html');
     }
 
-    if (this.tray) {
-      const positioner = new Positioner(this.window);
-
-      if (this.isWindows) {
-        const position = positioner.calculate('trayBottomCenter', this.tray.getBounds());
-
-        this.window.setPosition(position.x, position.y - 10);
-      } else {
-        const position = positioner.calculate('trayCenter', this.tray.getBounds());
-
-        console.log(this.tray.getBounds());
-
-        this.window.setPosition(position.x, position.y + 10);
-      }
-    }
-
     /*
      * Workaround for window flickering on Windows 10
      */
@@ -149,32 +133,40 @@ class Background {
     });
 
     this.window.on('blur', () => {
-      if (!this.isDevelopment && this.window) this.window.hide();
+      if (!this.isDevelopment) this.hideWindow();
     });
   }
 
   private createTray() {
-    const trayImage = nativeImage.createFromPath(path.join(__static, 'icons/icon.png')).resize({ width: 24, height: 24 });
+    const icons = {
+      windows: 'icons/icon.png',
+      mac: 'icons/iconTemplate.png',
+    };
 
-    this.tray = new Tray(trayImage);
+    const icon = nativeImage.createFromPath(path.join(__static, icons[(this.isWindows) ? 'windows' : 'mac']));
+
+    this.tray = new Tray((this.isWindows) ? icon.resize({ width: 24, height: 24 }) : icon);
+
+    const macTemplate: (MenuItemConstructorOptions | MenuItem)[] = (!this.isWindows) ? [
+      {
+        label: 'Bring to foreground',
+        click: () => {
+          this.showWindow();
+        }
+      },
+      {
+        type: 'separator'
+      },
+    ] : [];
 
     this.tray.setContextMenu(
-      Menu.buildFromTemplate([
-        (!this.isWindows ? {
-          label: 'Bring to foreground',
-          click: () => {
-            this.toggleWindow();
-          }
-        } : {}),
-        (!this.isWindows ? {
-          type: 'separator'
-        } : {}),
+      Menu.buildFromTemplate(macTemplate.concat([
         {
           label: 'Quit',
           type: 'normal',
           role: 'quit',
         },
-      ]),
+      ])),
     );
     this.tray.setToolTip('Magic Control');
 
@@ -182,32 +174,68 @@ class Background {
       this.tray.on('click', () => {
         this.toggleWindow();
       });
+
       this.tray.on('double-click', () => {
         this.toggleWindow();
       });
     }
   }
 
-  private toggleWindow() {
+  private async hideWindow() {
     if (this.window) {
       if (this.window.isVisible()) {
+        if (!this.isWindows) {
+          await fadeWindowOut(this.window);
+
+          // reseting window opacity
+          this.window.setOpacity(1);
+        }
+
         this.window.hide();
+      }
+    }
+  }
+
+  private showWindow() {
+    if (this.window) {
+      if (this.tray) {
+        const positioner = new Positioner(this.window);
+
+        if (this.isWindows) {
+          const position = positioner.calculate('trayBottomCenter', this.tray.getBounds());
+
+          this.window.setPosition(position.x, position.y - 10);
+        } else {
+          const position = positioner.calculate('trayCenter', this.tray.getBounds());
+
+          this.window.setPosition(position.x + 10, position.y + 10);
+        }
+      }
+
+      if (this.isWindows) {
+        this.windowsTrayManager.hidePopup();
+      }
+
+      this.window.show();
+      this.window.focus();
+
+      /*
+       * Workaround for window flickering on Windows 10
+       */
+      if (this.isWindows) {
+        setTimeout(() => {
+          if (this.window) this.window.setOpacity(1);
+        }, 100);
+      }
+    }
+  }
+
+  private async toggleWindow() {
+    if (this.window) {
+      if (this.window.isVisible()) {
+        await this.hideWindow();
       } else {
-        if (this.isWindows) {
-          this.windowsTrayManager.hidePopup();
-        }
-
-        this.window.show();
-        this.window.focus();
-
-        /*
-         * Workaround for window flickering on Windows 10
-         */
-        if (this.isWindows) {
-          setTimeout(() => {
-            if (this.window) this.window.setOpacity(1);
-          }, 100);
-        }
+        this.showWindow();
       }
     }
   }

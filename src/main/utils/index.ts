@@ -1,7 +1,7 @@
 import config from 'main/config';
 import DeviceModel from 'main/models/DeviceModel';
 import KeybindModel from 'main/models/KeybindModel';
-import { globalShortcut } from 'electron';
+import { BrowserWindow, globalShortcut } from 'electron';
 import { Keybind } from 'shared/types/Keybind';
 
 export function findController(type: string) {
@@ -54,4 +54,22 @@ export function unregisterKeybind(keybind: Keybind) {
   if (globalShortcut.isRegistered(keys)) {
     globalShortcut.unregister(keys);
   }
+}
+
+export function fadeWindowOut(window: BrowserWindow, step = 0.1, interval = 20): Promise<boolean> {
+  let opacity = window.getOpacity();
+
+  return new Promise((resolve) => {
+    const timeout = setInterval(() => {
+      if (opacity <= 0) {
+        clearInterval(timeout);
+
+        resolve(true);
+      }
+
+      window.setOpacity(opacity);
+
+      opacity = Math.round((opacity - step) * 10) / 10;
+    }, interval);
+  });
 }

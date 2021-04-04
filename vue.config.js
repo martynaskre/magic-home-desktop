@@ -46,7 +46,7 @@ module.exports = {
           category: 'public.app-category.utilities',
         },
         dmg: {
-          icon: 'public/icons/installerIcon.ico',
+          icon: 'public/icons/installerIcon.icns',
           artifactName: installerName,
         },
       }
