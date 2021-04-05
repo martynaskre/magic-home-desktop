@@ -10,7 +10,7 @@ class AppModel extends Model {
   public readonly storagePrefix: string = 'app';
   public readonly fillable: IModelData = {
     darkMode: true,
-    openOnStartup: true,
+    openOnStartup: false,
     language: 'en',
   };
 }
