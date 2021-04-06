@@ -1,54 +1,27 @@
-name: Build and release
+name: Build/release
 
 on: push
 
 jobs:
-  binaries-macos:
-    runs-on: macos-10.15
+  release:
+    runs-on: ${{ matrix.os }}
+
+    strategy:
+      matrix:
+        os: [macos-latest, windows-latest]
 
     steps:
-      - uses: actions/checkout@v2
+      - name: Check out Git repository
+        uses: actions/checkout@v1
 
-      - name: Use Node.js
+      - name: Install Node.js, NPM and Yarn
         uses: actions/setup-node@v1
         with:
-          node-version: 14.x
+          node-version: 10
 
-      - name: Install dependencies
-        run: npm install
-
-      - name: Package macOS binaries
-        run: npm run electron:build
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-
-      - uses: actions/upload-artifact@v2
+      - name: Build/release Electron app
+        uses: samuelmeuli/action-electron-builder@v1
         with:
-          name: binaries-macos
-          path: |
-            dist_electron/Magic Control Setup.dmg
-
-  binaries-windows:
-    runs-on: windows-2019
-
-    steps:
-      - uses: actions/checkout@v2
-
-      - name: Use Node.js
-        uses: actions/setup-node@v1
-        with:
-          node-version: 14.x
-
-      - name: Install dependencies
-        run: npm install
-
-      - name: Package Windows binaries
-        run: npm run electron:build
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-
-      - uses: actions/upload-artifact@v2
-        with:
-          name: binaries-windows
-          path: |
-            dist_electron/Magic Control Setup.exe
+          github_token: ${{ secrets.github_token }}
+          release: ${{ startsWith(github.ref, 'refs/tags/v') }}
+          use_vue_cli: true
