@@ -8,6 +8,7 @@ if [[ "$version" == "$currentVersion" ]]
 then
   if [[ "$branch" == "master" ]]
   then
+    git merge "$version"
     git commit -am v"$version"
     git tag v"$version"
     git push -u origin master && git push -u origin master --tags
