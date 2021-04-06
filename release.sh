@@ -5,7 +5,6 @@ currentVersion=$(node -p "require('./package.json').version")
 
 if [[ "$version" == "$currentVersion" ]]
 then
-  git merge origin "$version" --allow-unrelated-histories
   git commit -am v"$version"
   git tag v"$version"
   git push -u origin master && git push -u origin master --tags
