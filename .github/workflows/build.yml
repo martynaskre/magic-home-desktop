@@ -14,11 +14,11 @@ jobs:
         with:
           node-version: 14.x
 
-      - name: Install production dependencies
-        run: yarn install --frozen-lockfile
+      - name: Install dependencies
+        run: npm install
 
       - name: Package macOS binaries
-        run: yarn run package:m
+        run: npm run electron:build
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
@@ -40,10 +40,10 @@ jobs:
           node-version: 14.x
 
       - name: Install dependencies
-        run: yarn install --frozen-lockfile
+        run: npm install
 
       - name: Package Windows binaries
-        run: yarn run package:w
+        run: npm run electron:build
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
