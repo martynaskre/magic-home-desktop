@@ -26,7 +26,7 @@ jobs:
         with:
           name: binaries-macos
           path: |
-            build/Magic Control Setup.dmg
+            dist_electron/Magic Control Setup.dmg
 
   binaries-windows:
     runs-on: windows-2019
@@ -51,4 +51,4 @@ jobs:
         with:
           name: binaries-windows
           path: |
-            build/Magic Control Setup.exe
+            dist_electron/Magic Control Setup.exe
