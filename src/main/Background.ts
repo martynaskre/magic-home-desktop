@@ -14,7 +14,7 @@ import IpcChannelInterface from 'main/ipc/IpcChannelInterface';
 
 import KeybindModel from 'main/models/KeybindModel';
 
-declare const __static: string; // eslint-disable-line no-underscore-dangle
+declare const __static: string;
 
 const unhandled = require('electron-unhandled');
 
@@ -31,7 +31,7 @@ class Background {
 
   public constructor() {
     if (this.isWindows) {
-      this.windowsTrayManager = require('tray-window-state-manager'); // eslint-disable-line global-require
+      this.windowsTrayManager = require('tray-window-state-manager');
     }
   }
 

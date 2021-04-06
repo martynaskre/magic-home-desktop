@@ -16,4 +16,3 @@ then
 else
   echo "Mismatch between provided versions. Current version: "$currentVersion", release version: "$version
 fi
-
