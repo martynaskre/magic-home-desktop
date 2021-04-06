@@ -1,0 +1,54 @@
+name: Build and release
+
+on: push
+
+jobs:
+  binaries-macos:
+    runs-on: macos-10.15
+
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Use Node.js
+        uses: actions/setup-node@v1
+        with:
+          node-version: 14.x
+
+      - name: Install production dependencies
+        run: yarn install --frozen-lockfile
+
+      - name: Package macOS binaries
+        run: yarn run package:m
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - uses: actions/upload-artifact@v2
+        with:
+          name: binaries-macos
+          path: |
+            build/Magic Control Setup.dmg
+
+  binaries-windows:
+    runs-on: windows-2019
+
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Use Node.js
+        uses: actions/setup-node@v1
+        with:
+          node-version: 14.x
+
+      - name: Install dependencies
+        run: yarn install --frozen-lockfile
+
+      - name: Package Windows binaries
+        run: yarn run package:w
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - uses: actions/upload-artifact@v2
+        with:
+          name: binaries-windows
+          path: |
+            build/Magic Control Setup.exe
