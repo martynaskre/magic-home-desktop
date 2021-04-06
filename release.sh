@@ -7,7 +7,7 @@ if [[ "$version" == "$currentVersion" ]]
 then
   git commit -am v"$version"
   git tag v"$version"
-  git push -u origin master && git push -u origin master --tags
+  git push && git push --tags
 else
   echo "Mismatch between provided versions. Current version: "$currentVersion", release version: "$version
 fi
