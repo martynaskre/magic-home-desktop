@@ -8,7 +8,7 @@ if [[ "$version" == "$currentVersion" ]]
 then
   if [[ "$branch" == "master" ]]
   then
-    git merge origin "$version"
+    git merge origin "$version" --allow-unrelated-histories
     git commit -am v"$version"
     git tag v"$version"
     git push -u origin master && git push -u origin master --tags
