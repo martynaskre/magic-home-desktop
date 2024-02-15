@@ -1,9 +1,12 @@
 # Magic Control
 
-![Dependencies](https://img.shields.io/david/dev/martynass/magic-home-desktop)
+![Downloads](https://img.shields.io/github/downloads/martynass/magic-home-desktop/total)
 ![Issues](https://img.shields.io/github/issues-raw/martynass/magic-home-desktop)
 
 Simple to use desktop app for macOS and Windows developed to control Magic Home devices.
+
+> [!NOTE]  
+> A macOS version of Magic Control is being continued in another repository under the name [LightCommander](https://github.com/martynaskre/LightCommander). You can find the most recent release [here](https://github.com/martynaskre/LightCommander/releases/latest).
 
 ![App Preview](https://i.imgur.com/AAxZEiF.png)
 
